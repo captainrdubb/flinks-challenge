@@ -114,10 +114,16 @@ func deleteWish(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(list)
 }
 
+func sayHello(w http.ResponseWriter, r *http.Request) {
+	hello := struct{ Greeting string }{Greeting: "Hello!"}
+	json.NewEncoder(w).Encode(hello)
+}
+
 func main() {
 	wishList.Add(Wish{Description: "Two Front Teeth"})
 
 	r := mux.NewRouter()
+	r.HandleFunc("/hello", sayHello).Methods("GET")
 	r.HandleFunc("/", getWishes).Methods("GET")
 	r.HandleFunc("/", addWish).Methods("POST")
 	r.HandleFunc("/", updateWish).Methods("PUT")
